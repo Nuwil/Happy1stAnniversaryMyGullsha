@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            background-attachment: fixed;
+            /* Keeps gradient static while scrolling */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        #homePage,
+        #picturePage,
+        #msgForBeloved {
+            height: 100vh;
+            width: 100%;
+            padding: 20px 0;
+            background: transparent;
+            /* Critical for seamless effect */
+        }
+
+        .container {
+            padding: 0 8%;
+            height: 100%;
+        }
+
+        /* Navigation */
+        .homeNavBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .homeNavBar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 15px 0;
+        }
+
+        .homeNavBar a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            font-size: 18px;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .homeNavBar a:hover {
+            color: #ff6b6b;
+            background-color: #fff0f0;
+        }
+
+        /* Home Content */
+        #homePage {
+            padding-top: 80px;
+            align-items: center;
+        }
+
+        .homeContent {
+            display: flex;
+            gap: 40px;
+            height: calc(100% - 80px);
+            align-items: center;
+        }
+
+        .contentLeftSide {
+            flex: 1;
+            padding: 30px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contentLeftSide p {
+            font-size: 24px;
+            line-height: 1.6;
+            color: #555;
+            text-align: center;
+            font-style: italic;
+            max-width: 500px;
+        }
+
+        .contentLeftSide span {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .contentRightSide {
+            flex: 1;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+
+        #slideImages {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #slideImages img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.9s ease-in-out;
+            position: absolute;
+            object-fit: contain;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #slideImages img.show {
+            opacity: 1;
+        }
+
+        /* Picture Page - UPDATED FOR SQUARE CONTAINERS */
+        #picturePage {
+            padding-top: 80px;
+            /* Adjust based on navbar height */
+        }
+
+        .picture-content {
+            width: 100%;
+            text-align: center;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px auto;
+            max-width: 800px;
+            /* Limits the maximum width */
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%;
+            /* This creates the square aspect ratio */
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .image-container img.show {
+            opacity: 1;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .homeContent {
+                flex-direction: column;
+                height: auto;
+                gap: 20px;
+            }
+
+            .contentLeftSide,
+            .contentRightSide {
+                width: 100%;
+                height: auto;
+                padding: 20px;
+            }
+
+            .contentLeftSide p {
+                font-size: 18px;
+            }
+
+            .homeNavBar ul {
+                gap: 15px;
+                padding: 10px 0;
+            }
+
+            .homeNavBar a {
+                font-size: 16px;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="homePage">
+        <div class="container">
+            <div class="homeNavBar">
+                <ul>
+                    <li><a href="#homePage">Home</a></li>
+                    <li><a href="#picturePage">Pictures of my Gullsha Baby</a></li>
+                </ul>
+            </div>
+            <div class="homeContent">
+                <div class="contentLeftSide">
+                    <p>Moments that we shared together during this year—I hope you enjoyed them the way I enjoyed them
+                        with <span>you</span>.❣️</p>
+                </div>
+                <div class="contentRightSide">
+                    <div id="slideImages"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="picturePage">
+        <div class="container">
+            <div class="picture-content">
+                <h1>Love of my Life</h1>
+                <div class="image-grid">
+                    <div class="image-container" id="container1"></div>
+                    <div class="image-container" id="container2"></div>
+                    <div class="image-container" id="container3"></div>
+                    <div class="image-container" id="container4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Home page image slider
+            const homeImages = [
+                "./secondPageImageFolder/image1.jpg",
+                "./secondPageImageFolder/image2.jpg",
+                "./secondPageImageFolder/image3.jpg",
+                "./secondPageImageFolder/image4.png"
+            ];
+
+            const slideImages = document.getElementById('slideImages');
+            homeImages.forEach((url, index) => {
+                const img = new Image(); // Better way to create image elements
+                img.src = url;
+                img.alt = `Memory ${index + 1}`;
+                img.onerror = function () {
+                    console.error("Failed to load image:", url);
+                    // You could set a placeholder image here if desired
+                    // this.src = './path/to/placeholder.jpg';
+                };
+                slideImages.appendChild(img);
+            });
+
+            const homeSlides = document.querySelectorAll('#slideImages img');
+            let currentHomeSlide = 0;
+
+            function showHomeSlide(index) {
+                homeSlides.forEach(slide => slide.classList.remove('show'));
+                if (homeSlides.length > 0) {
+                    currentHomeSlide = index;
+                    homeSlides[currentHomeSlide].classList.add('show');
+                }
+            }
+
+            function nextHomeSlide() {
+                if (homeSlides.length > 0) {
+                    let nextIndex = (currentHomeSlide + 1) % homeSlides.length;
+                    showHomeSlide(nextIndex);
+                }
+            }
+
+            // Initialize first slide
+            showHomeSlide(0);
+            const homeInterval = setInterval(nextHomeSlide, 3000);
+
+            // Picture page image containers - USE DIFFERENT IMAGES FOR EACH CONTAINER
+            const imageSets = [
+                [
+                    "./secondPageImageFolder/UL1.png",
+                    "./secondPageImageFolder/UL2.png",
+                    "./secondPageImageFolder/UL3.png",
+                    "./secondPageImageFolder/UL4.png",
+                    "./secondPageImageFolder/UL5.png",
+                    "./secondPageImageFolder/UL6.png",
+                    "./secondPageImageFolder/UL7.png",
+                    "./secondPageImageFolder/UL8.png"
+            
+                ],
+                [
+                    "./secondPageImageFolder/UR1.png",
+                    "./secondPageImageFolder/UR2.png",
+                    "./secondPageImageFolder/UR3.png",
+                    "./secondPageImageFolder/UR4.png",
+                    "./secondPageImageFolder/UR5.png",
+                    "./secondPageImageFolder/UR6.png",
+                    "./secondPageImageFolder/UR7.png",
+                    "./secondPageImageFolder/UR8.png"
+                ],
+                [
+                    "./secondPageImageFolder/LL1.png",
+                    "./secondPageImageFolder/LL2.png",
+                    "./secondPageImageFolder/LL3.png",
+                    "./secondPageImageFolder/LL4.png",
+                    "./secondPageImageFolder/LL5.png",
+                    "./secondPageImageFolder/LL6.png",
+                    "./secondPageImageFolder/LL7.png",
+                    "./secondPageImageFolder/LL8.png"
+                ],
+                [
+                    "./secondPageImageFolder/LR1.png",
+                    "./secondPageImageFolder/LR2.png",
+                    "./secondPageImageFolder/LR3.png",
+                    "./secondPageImageFolder/LR4.png",
+                    "./secondPageImageFolder/LR5.png",
+                    "./secondPageImageFolder/LR6.png",
+                    "./secondPageImageFolder/LR7.png",
+                    "./secondPageImageFolder/LR8.png"
+                ]
+            ];
+
+            const containers = [
+                document.getElementById('container1'),
+                document.getElementById('container2'),
+                document.getElementById('container3'),
+                document.getElementById('container4')
+            ];
+
+            // Initialize each container with its images
+            containers.forEach((container, index) => {
+                // Clear any existing content
+                container.innerHTML = '';
+
+                imageSets[index].forEach(url => {
+                    const img = new Image();
+                    img.src = url;
+                    img.onerror = function () {
+                        console.error("Failed to load container image:", url);
+                        // this.src = './path/to/placeholder.jpg';
+                    };
+                    container.appendChild(img);
+                });
+
+                const slides = container.querySelectorAll('img');
+                let currentSlide = 0;
+
+                function showSlide() {
+                    slides.forEach(slide => slide.classList.remove('show'));
+                    if (slides.length > 0) {
+                        slides[currentSlide].classList.add('show');
+                        currentSlide = (currentSlide + 1) % slides.length;
+                    }
+                }
+
+                // Start each container with different intervals
+                if (slides.length > 0) {
+                    showSlide();
+                    setInterval(showSlide, 2000 + (index * 1000));
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
