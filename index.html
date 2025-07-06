@@ -4,22 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anniversary Celebration</title>
+    <title>Our Anniversary Celebration</title>
     <style>
-        html,
-        body {
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #fad0c4;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        html, body {
             height: 100%;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, var(--secondary-color) 100%);
             display: flex;
             flex-direction: column;
             min-height: 100%;
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
         /* FORM STYLES */
@@ -32,157 +42,130 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 1s ease-in-out;
-            z-index: 10;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(3px);
         }
 
         #formContainer {
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
             margin: 0 auto;
-            padding: 30px;
-            background: rgba(249, 249, 249, 0.9);
-            border-radius: 15px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            padding: 2.5rem;
+            background: rgba(249, 249, 249, 0.95);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow);
+            transform: scale(0.9);
+            opacity: 0;
+            animation: formAppear 0.8s 0.3s forwards;
+        }
+
+        @keyframes formAppear {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1rem;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 12px;
+            padding: 0.8rem 1rem;
             box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-            transition: border 0.3s;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: #ff6b6b;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
         }
 
         input[type="submit"] {
-            background: #ff6b6b;
+            background: var(--primary-color);
             color: white;
-            padding: 12px 20px;
+            padding: 0.8rem;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 1rem;
+            font-weight: 600;
             width: 100%;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         input[type="submit"]:hover {
             background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 82, 82, 0.3);
         }
 
         h2 {
-            color: #ff6b6b;
-            margin-bottom: 25px;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
             text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
         }
 
         /* MAIN CONTENT STYLES */
-        #homePage {
+        #mainContent {
             position: relative;
             width: 100%;
             height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            overflow: hidden;
+        }
+
+        #mainContent.visible {
+            display: flex;
+            animation: contentAppear 1s ease-out forwards;
+        }
+
+        @keyframes contentAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .container {
             width: 100%;
             height: 100%;
             position: relative;
-            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-
-        #mainContent {
-            position: relative;
-            width: 100%;
-            flex: 1;
-            display: none;
-            flex-direction: column;
-            z-index: 5;
-        }
-
-        #mainContent.visible {
-            display: flex;
-            opacity: 1;
-        }
-
-        .celebration-message {
-            opacity: 1;
-            text-align: center;
-            color: white;
-            animation: zoomIn 1s ease-out forwards;
-        }
-
-        #songPlayer {
-            margin-top: 30px;
-            width: 80%;
-            max-width: 400px;
-        }
-
-        .celebration-message {
-            text-align: center;
-            color: white;
-            transform: scale(0.8);
-            opacity: 0;
-            animation: zoomIn 1s ease-out 1.5s forwards;
-        }
-
-        .celebration-message h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .celebration-message p {
-            font-size: 1.5rem;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        audio {
-            display: none;
-        }
-
-        .heart {
-            position: absolute;
-            pointer-events: none;
-            animation: floatAway 2s ease-out forwards;
-            font-size: 24px;
-            color: #ff6b6b;
-            z-index: 1000;
-            opacity: 0;
-        }
-
-        .final-heart {
-            position: absolute;
-            pointer-events: none;
-            user-select: none;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            padding: 2rem;
+            box-sizing: border-box;
         }
 
         /* Slides Animation */
@@ -196,12 +179,10 @@
             align-items: center;
             text-align: center;
             opacity: 0;
-            transition: all 1s ease-in-out;
-            transform: translateY(20px);
-            padding: 0 20px;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateY(30px);
+            padding: 2rem;
             box-sizing: border-box;
-            top: 0;
-            left: 0;
             pointer-events: none;
         }
 
@@ -212,25 +193,30 @@
         }
 
         .slide h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            line-height: 1.2;
         }
 
         .slide p {
-            font-size: 1.5rem;
-            max-width: 600px;
-            color: #fff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            max-width: 800px;
+            color: var(--white);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
             line-height: 1.6;
+            margin: 0 auto 1.5rem;
+            padding: 0 1rem;
         }
 
         .slide span {
-            color: #ff6b6b;
-            font-weight: bold;
+            color: var(--primary-color);
+            font-weight: 700;
             position: relative;
             display: inline-block;
+            transition: all 0.3s ease;
         }
 
         .slide span::after {
@@ -239,13 +225,13 @@
             left: 0;
             top: 0;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            color: #ff6b6b;
-            font-weight: bold;
+            transition: all 0.3s ease;
+            color: var(--primary-color);
+            font-weight: 700;
         }
 
         .slide span:hover {
-            opacity: 1;
+            transform: scale(1.05);
         }
 
         .slide span:hover::after {
@@ -256,57 +242,55 @@
             opacity: 0;
         }
 
-        /* Slide-specific animations */
-        .slide.two p,
-        .slide.three p,
-        .slide.four p,
-        .slide.five p {
-            transform: scale(0.9);
-            transition: transform 0.5s ease;
-        }
-
-        .slide.two.active p,
-        .slide.three.active p,
-        .slide.four.active p,
-        .slide.five.active p {
-            transform: scale(1);
-        }
-
         /* Navigation Buttons */
         .nav-buttons {
             position: fixed;
-            bottom: 30px;
+            bottom: 2rem;
             width: 100%;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 1rem;
             z-index: 100;
+            padding: 0 1rem;
         }
 
         .nav-button {
-            background: rgba(255, 255, 255, 0.8);
-            color: #ff6b6b;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
             border: none;
             border-radius: 50px;
-            padding: 12px 25px;
+            padding: 0.8rem 1.8rem;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(5px);
+            min-width: 120px;
+            text-align: center;
         }
 
         .nav-button:hover {
-            background: white;
+            background: var(--white);
             transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .nav-button.hidden {
             opacity: 0;
             pointer-events: none;
+            transform: translateY(10px);
         }
 
-        /* Falling Hearts Background */
+        /* Heart Animations */
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+            user-select: none;
+        }
+
         .falling-hearts-container {
             position: fixed;
             top: 0;
@@ -320,11 +304,10 @@
 
         .falling-heart {
             position: absolute;
-            font-size: 20px;
-            color: rgba(255, 107, 107, 0.7);
-            animation: falling linear infinite;
+            animation: falling linear forwards;
             z-index: 1;
-            user-select: none;
+            opacity: 0;
+            will-change: transform;
         }
 
         @keyframes falling {
@@ -332,90 +315,130 @@
                 transform: translateY(-10vh) translateX(0) rotate(0deg);
                 opacity: 0;
             }
-
             10% {
-                opacity: 1;
+                opacity: 0.8;
             }
-
-            90% {
-                opacity: 1;
-            }
-
             100% {
-                transform: translateY(110vh) translateX(20px) rotate(360deg);
+                transform: translateY(110vh) translateX(calc(var(--random-x) * 100px)) rotate(360deg);
                 opacity: 0;
             }
         }
 
-        @keyframes floatAway {
+        @keyframes floatUp {
             0% {
-                transform: translate(0, 0) scale(0.5);
+                transform: translate(-50%, -50%) scale(0.5);
                 opacity: 0;
             }
-
-            10% {
-                opacity: 1;
-                transform: scale(1);
+            50% {
+                opacity: 0.9;
             }
-
             100% {
-                transform: translate(var(--tx), var(--ty)) scale(0.2);
+                transform: translate(-50%, -150%) scale(1.2);
                 opacity: 0;
             }
         }
 
-        @keyframes zoomIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.7;
             }
-
-            to {
-                transform: scale(1);
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
                 opacity: 1;
             }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes rotateHeart {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg) scale(1);
+            }
+        }
+
+        /* Audio Player */
+        #songPlayer {
+            position: fixed;
+            bottom: 6rem;
+            width: 80%;
+            max-width: 300px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            z-index: 100;
+            visibility: hidden;
+        }
+
+        #songPlayer:hover {
+            opacity: 1;
         }
 
         /* Transition Classes */
         .hide-form {
             opacity: 0;
-            transform: translateY(-50px);
+            transform: translateY(-30px) scale(0.95);
             pointer-events: none;
         }
 
-        .show-content {
-            opacity: 1;
-        }
-
         /* Responsive Styles */
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
             #formContainer {
-                padding: 20px;
+                padding: 1.5rem;
             }
 
-            input[type="text"] {
-                padding: 10px;
+            .slide {
+                padding: 1rem;
             }
 
-            .celebration-message h1 {
-                font-size: 2rem;
-            }
-
-            .celebration-message p {
-                font-size: 1.2rem;
+            .slide p {
+                padding: 0 0.5rem;
             }
 
             .nav-buttons {
-                bottom: 20px;
-                gap: 10px;
+                bottom: 1rem;
+                gap: 0.5rem;
             }
 
             .nav-button {
-                padding: 10px 20px;
+                padding: 0.6rem 1.2rem;
                 font-size: 0.9rem;
+                min-width: 100px;
+            }
+
+            #songPlayer {
+                bottom: 5rem;
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            input[type="text"] {
+                padding: 0.7rem;
+            }
+
+            input[type="submit"] {
+                padding: 0.7rem;
+            }
+
+            .slide h1 {
+                font-size: 2rem;
+            }
+
+            .slide p {
+                font-size: 1.1rem;
             }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -425,16 +448,16 @@
                 <h2>Enter Anniversary Details</h2>
                 <form id="annivForm">
                     <div class="form-group">
-                        <label for="name">What is my Noel's Baby name</label>
-                        <input type="text" name="name" id="name" required>
+                        <label for="name">What is my Noel Baby's name</label>
+                        <input type="text" name="name" id="name" required placeholder="Enter her name">
                     </div>
                     <div class="form-group">
-                        <label for="age">How old is she year 2025</label>
-                        <input type="text" name="age" id="age" required>
+                        <label for="age">How old is she in 2025</label>
+                        <input type="text" name="age" id="age" required placeholder="Enter her age">
                     </div>
                     <div class="form-group">
                         <label for="annivDate">Date of our Anniversary</label>
-                        <input type="text" name="annivDate" id="annivDate" required>
+                        <input type="text" name="annivDate" id="annivDate" required placeholder="MM/DD/YYYY">
                     </div>
                     <div class="submit-container">
                         <input type="submit" value="Submit" id="submitBtn">
@@ -444,43 +467,39 @@
         </div>
     </div>
 
-    <div id="mainContent" style="position: relative; z-index: 2;">
+    <div id="mainContent">
         <audio id="songPlayer" controls loop>
             <source src="/musicFolder/Mitski - My Love Mine All Mine.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
-        <div id="homePage" class="celebration-message">
-            <div class="container">
-                <div class="slide one active">
-                    <h1>Happy Anniversary!</h1>
-                    <p>This special day is all about you, my love ❤️</p>
-                </div>
-                <div class="slide two">
-                    <p>Hey, my love, we've made it this far. I know it was hard, but we'll keep moving forward together,
-                        okay? also know that I always say "I give up," "I'll leave," and many more things that aren't
-                        what I really feel, but I hope you could understand me better next time because I'm having a
-                        hard time as well understanding what I feel, and I don't know how to express my feelings well
-                        towards you.</p>
-                </div>
-                <div class="slide three">
-                    <p>I hope we'll grow together and won't give up on each other again like we used to do. I don't want
-                        to be sad on this wonderful day of ours, and I want you to know that I care for you a lot and I
-                        love you so much. I'm sorry for letting you think I don't care about you, but the truth is I do
-                        care about you. It's only a misunderstanding due to circumstances such as school schedules and
-                        time zone differences.</p>
-                </div>
-                <div class="slide four">
-                    <p>I know we have our ups and downs; I hope we could always face it and overcome our downs; if not,
-                        we can always call each other to face it together. I'm sorry, for this is all I can do for now,
-                        but if you're here, I will buy us Shawarma, Ice Cream, Pasta, and Indomie, and I'll cook
-                        everything
-                        for you, and we'll go out and <span>have some fun</span>, so everyone knows that you are mine.
-                    </p>
-                </div>
-                <div class="slide five">
-                    <p>I love you so much, and I will never ever leave you, and I will always stay here by your side as
-                        always and as it should be always and forever and ever with Allah.</p>
-                </div>
+        <div class="container">
+            <div class="slide one active">
+                <h1>Happy Anniversary!</h1>
+                <p>This special day is all about you, my love ❤️</p>
+            </div>
+            <div class="slide two">
+                <p>Hey, my love, we've made it this far. I know it was hard, but we'll keep moving forward together,
+                    okay? I also know that I always say "I give up," "I'll leave," and many more things that aren't
+                    what I really feel, but I hope you could understand me better next time because I'm having a
+                    hard time as well understanding what I feel, and I don't know how to express my feelings well
+                    towards you.</p>
+            </div>
+            <div class="slide three">
+                <p>I hope we'll grow together and won't give up on each other again like we used to do. I don't want
+                    to be sad on this wonderful day of ours, but I want you to know that I care for you a lot and I
+                    love you so much. I'm sorry for letting you think I don't care about you, but the truth is I do
+                    care about you. It's only a misunderstanding due to circumstances such as school schedules and
+                    time zone differences.</p>
+            </div>
+            <div class="slide four">
+                <p>I know we have our ups and downs; I hope we could always face it and overcome our downs; if not,
+                    we can always call each other to face it together. I'm sorry, for this is all I can do for now,
+                    but if you're here, I will buy us Shawarma, Ice Cream, Pasta, and Indomie, and I'll cook
+                    everything for you, and we'll go out and <span>have some fun</span>, so everyone knows that you are mine.</p>
+            </div>
+            <div class="slide five">
+                <p>I love you so much, and I will never ever leave you, and I will always stay here by your side as
+                    always and as it should be always and forever and ever with Allah.</p>
             </div>
         </div>
 
@@ -488,60 +507,45 @@
         <div class="nav-buttons">
             <button id="prevBtn" class="nav-button hidden">Previous</button>
             <button id="nextBtn" class="nav-button">Next</button>
-            <button id="continueBtn" class="nav-button hidden">Continue to Next Page</button>
+            <button id="continueBtn" class="nav-button hidden">Continue</button>
         </div>
     </div>
 
     <script>
+        // Form Validation and Submission
         document.getElementById('annivForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
-            let name = document.getElementById("name").value.trim().toLowerCase();
-            let age = parseInt(document.getElementById("age").value);
-            let annivDate = document.getElementById("annivDate").value.trim().toLowerCase();
+            const name = document.getElementById("name").value.trim().toLowerCase();
+            const age = parseInt(document.getElementById("age").value);
+            const annivDate = document.getElementById("annivDate").value.trim().toLowerCase();
 
             const validNames = [
-                "gullsha",
-                "gully",
-                "gulle",
-                "gullsha b. muhsin",
-                "gullsha bahzad muhsin",
-                "gully b. muhsin",
-                "gully bahzad muhsin",
+                "gullsha", "gully", "gulle", 
+                "gullsha b. muhsin", "gullsha bahzad muhsin",
+                "gully b. muhsin", "gully bahzad muhsin",
                 "most gorgeous woman in whole existence"
             ];
 
             const validDates = [
-                "july 10 2023",
-                "july 10, 2023",
-                "10 july 2023",
-                "10th july 2023",
-                "july 10th 2023",
-                "july 10",
-                "july10",
-                "07-10-23",
-                "7-10-23",
-                "07-10",
-                "7-10",
-                "07 10 23",
-                "7 10 23",
-                "07 10",
-                "7 10"
+                "july 10 2023", "july 10, 2023", "10 july 2023", "10th july 2023", "july 10th 2023",
+                "july 10", "july10", "07-10-23", "7-10-23", "07-10", "7-10", "07 10 23", "7 10 23", "07 10", "7 10",
+                "07/10/23", "7/10/23", "07/10", "7/10"
             ];
 
-            if (validNames.includes(name) && age === 15 || age === 16 && validDates.includes(annivDate)) {
+            if (validNames.some(validName => name.includes(validName)) && 
+                (age === 15 || age === 16) && 
+                validDates.some(validDate => annivDate.includes(validDate))) {
+                
                 // Create button heart explosion
-                createHearts();
+                createHearts(50, document.getElementById('submitBtn'));
 
                 // Hide form with transition
                 document.querySelector(".form").classList.add("hide-form");
 
                 // Show main content with transition
                 const mainContent = document.getElementById("mainContent");
-                mainContent.style.display = "flex";
-                setTimeout(() => {
-                    mainContent.classList.add("visible");
-                }, 10);
+                mainContent.classList.add("visible");
 
                 // Create falling hearts background
                 createFallingHearts();
@@ -551,58 +555,54 @@
 
                 // Try to play audio
                 const audio = document.getElementById("songPlayer");
-                const playPromise = audio.play();
+                const playPromise = audio.play().catch(error => {
+                    audio.controls = true;
+                    console.log("Autoplay prevented, showing controls");
+                });
 
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        audio.controls = true;
-                    });
-                }
             } else {
+                // Shake animation for wrong input
+                document.getElementById('annivForm').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('annivForm').classList.remove('shake');
+                }, 500);
                 alert("Access Denied! Please check your details.");
             }
         });
 
-        // Heart explosion from submit button
-        function createHearts() {
-            const submitBtn = document.getElementById('submitBtn');
-            const btnRect = submitBtn.getBoundingClientRect();
+        // Heart explosion effect
+        function createHearts(count, element) {
+            const btnRect = element.getBoundingClientRect();
             const btnCenterX = btnRect.left + btnRect.width / 2;
             const btnCenterY = btnRect.top + btnRect.height / 2;
 
-            // Create 50 hearts for explosion effect
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < count; i++) {
                 const heart = document.createElement('div');
-                heart.classList.add('heart');
+                heart.className = 'heart';
                 heart.innerHTML = '❤️';
-
-                // Random angle in radians (full 360 degrees)
+                
+                // Random properties
                 const angle = Math.random() * Math.PI * 2;
-
-                // Random distance (100-300px)
                 const distance = 100 + Math.random() * 200;
-
-                // Calculate final position
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
-
-                // Set custom properties for animation
+                const size = 20 + Math.random() * 20;
+                const color = `hsl(${Math.random() * 60 + 330}, 100%, ${60 + Math.random() * 30}%)`;
+                
+                // Apply styles
                 heart.style.setProperty('--tx', `${tx}px`);
                 heart.style.setProperty('--ty', `${ty}px`);
                 heart.style.left = `${btnCenterX}px`;
                 heart.style.top = `${btnCenterY}px`;
-
-                // Random delay for staggered appearance
+                heart.style.fontSize = `${size}px`;
+                heart.style.color = color;
                 heart.style.animationDelay = `${Math.random() * 0.5}s`;
-
+                heart.style.animationDuration = `${1 + Math.random() * 2}s`;
+                
                 document.body.appendChild(heart);
 
-                // Remove heart after animation completes
-                setTimeout(() => {
-                    if (heart.parentNode) {
-                        heart.parentNode.removeChild(heart);
-                    }
-                }, 2500);
+                // Remove after animation
+                setTimeout(() => heart.remove(), 3000);
             }
         }
 
@@ -612,41 +612,39 @@
             container.className = 'falling-hearts-container';
             document.body.appendChild(container);
 
-            function addHeart() {
+            function createHeart() {
                 const heart = document.createElement('div');
                 heart.className = 'falling-heart';
-                heart.innerHTML = '❤️';
-
-                // Random position
-                heart.style.left = `${Math.random() * 100}vw`;
-
-                // Random animation properties
+                heart.innerHTML = ['❤️', '💖', '💗', '💓', '💘'][Math.floor(Math.random() * 5)];
+                
+                // Random properties
+                const size = 15 + Math.random() * 25;
                 const duration = 5 + Math.random() * 10;
+                const delay = Math.random() * 5;
+                const xPos = Math.random() * 100;
+                const color = `hsla(${Math.random() * 60 + 330}, 100%, 70%, ${0.5 + Math.random() * 0.5})`;
+                
+                // Apply styles
+                heart.style.left = `${xPos}vw`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.color = color;
                 heart.style.animationDuration = `${duration}s`;
-                heart.style.animationDelay = `${Math.random() * 2}s`;
-                heart.style.fontSize = `${15 + Math.random() * 15}px`;
-
-                // Slight horizontal movement
-                const xMovement = (Math.random() - 0.5) * 40;
-                heart.style.setProperty('--x-movement', `${xMovement}px`);
-
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.setProperty('--random-x', Math.random() > 0.5 ? 1 : -1);
+                
                 container.appendChild(heart);
-
-                // Remove heart after animation completes
-                setTimeout(() => {
-                    if (heart.parentNode) {
-                        heart.parentNode.removeChild(heart);
-                    }
-                }, duration * 1000);
+                
+                // Remove after animation
+                setTimeout(() => heart.remove(), duration * 1000);
             }
 
             // Initial hearts
-            for (let i = 0; i < 15; i++) {
-                setTimeout(addHeart, i * 200);
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createHeart, i * 300);
             }
-
+            
             // Continuous hearts
-            setInterval(addHeart, 300);
+            setInterval(createHeart, 500);
         }
 
         // Slide navigation with buttons
@@ -658,10 +656,25 @@
             let currentSlide = 0;
             const totalSlides = slides.length;
 
-            // Show first slide
-            showSlide(currentSlide);
+            function showSlide(index) {
+                // Hide all slides
+                slides.forEach(slide => slide.classList.remove('active'));
+                
+                // Show current slide
+                slides[index].classList.add('active');
+                
+                // Update button visibility
+                prevBtn.classList.toggle('hidden', index === 0);
+                nextBtn.classList.toggle('hidden', index === totalSlides - 1);
+                continueBtn.classList.toggle('hidden', index !== totalSlides - 1);
 
-            // Next button click handler
+                // Special effects for last slide
+                if (index === totalSlides - 1) {
+                    createFinalHearts();
+                }
+            }
+
+            // Button event listeners
             nextBtn.addEventListener('click', () => {
                 if (currentSlide < totalSlides - 1) {
                     currentSlide++;
@@ -669,7 +682,6 @@
                 }
             });
 
-            // Previous button click handler
             prevBtn.addEventListener('click', () => {
                 if (currentSlide > 0) {
                     currentSlide--;
@@ -677,232 +689,97 @@
                 }
             });
 
-            // Continue button click handler
             continueBtn.addEventListener('click', () => {
-                // Create a heart explosion effect when continuing
-                createContinueHearts();
-
-                // Open the next page in a new blank tab after a short delay
+                createHearts(30, continueBtn);
                 setTimeout(() => {
                     window.open("./secondPageFolder/secondPage.html", "_blank");
                 }, 1000);
             });
 
-            function showSlide(index) {
-                // Hide all slides
-                slides.forEach(slide => {
-                    slide.classList.remove('active');
-                });
-
-                // Show current slide
-                slides[index].classList.add('active');
-
-                // Update button visibility
-                prevBtn.classList.toggle('hidden', index === 0);
-                nextBtn.classList.toggle('hidden', index === totalSlides - 1);
-                continueBtn.classList.toggle('hidden', index !== totalSlides - 1);
-
-                // Special animation for last slide
-                if (index === totalSlides - 1) {
-                    createFinalHearts();
-                }
-            }
-        }
-
-        function createContinueHearts() {
-            const continueBtn = document.getElementById('continueBtn');
-            const btnRect = continueBtn.getBoundingClientRect();
-            const btnCenterX = btnRect.left + btnRect.width / 2;
-            const btnCenterY = btnRect.top + btnRect.height / 2;
-
-            // Create 30 hearts for explosion effect
-            for (let i = 0; i < 30; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '❤️';
-
-                // Random angle in radians (full 360 degrees)
-                const angle = Math.random() * Math.PI * 2;
-
-                // Random distance (100-300px)
-                const distance = 100 + Math.random() * 200;
-
-                // Calculate final position
-                const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance;
-
-                // Set custom properties for animation
-                heart.style.setProperty('--tx', `${tx}px`);
-                heart.style.setProperty('--ty', `${ty}px`);
-                heart.style.left = `${btnCenterX}px`;
-                heart.style.top = `${btnCenterY}px`;
-                heart.style.fontSize = `${20 + Math.random() * 15}px`;
-                heart.style.color = `hsl(${Math.random() * 60 + 330}, 100%, 70%)`; // Pink-red colors
-
-                // Random delay for staggered appearance
-                heart.style.animationDelay = `${Math.random() * 0.3}s`;
-
-                document.body.appendChild(heart);
-
-                // Remove heart after animation completes
-                setTimeout(() => {
-                    if (heart.parentNode) {
-                        heart.parentNode.removeChild(heart);
-                    }
-                }, 2000);
-            }
+            // Initialize first slide
+            showSlide(0);
         }
 
         // Special heart animation for final slide
-        // Replace the existing createFinalHearts() function with this:
         function createFinalHearts() {
             const container = document.querySelector('.slide.five');
+            const messages = ['❤️', 'I Love You', 'Forever', 'Always', 'My Love', 'You & Me'];
             const colors = ['#ff6b6b', '#ff8e8e', '#ffb3b3', '#ffd8d8', '#ffffff'];
-            const messages = ['❤️', 'I Love You', 'Forever', 'Always', 'My Love'];
 
-            // Clear any existing animations first
-            container.querySelectorAll('.final-heart').forEach(heart => {
-                heart.remove();
-            });
+            // Clear existing hearts
+            container.querySelectorAll('.final-heart').forEach(heart => heart.remove());
 
-            // Create 50 hearts with different animations
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.className = 'final-heart';
-
-                    // Randomly choose between different heart styles
+                    
+                    // Random properties
                     const heartType = Math.floor(Math.random() * 3);
-
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const size = 20 + Math.random() * 30;
+                    const xPos = Math.random() * 100;
+                    const yPos = Math.random() * 100;
+                    const duration = 3 + Math.random() * 4;
+                    const delay = Math.random() * 2;
+                    
+                    // Style the heart
+                    heart.style.left = `${xPos}%`;
+                    heart.style.top = `${yPos}%`;
+                    heart.style.color = color;
+                    heart.style.fontSize = `${size}px`;
+                    heart.style.animationDelay = `${delay}s`;
+                    
+                    // Different heart types
                     if (heartType === 0) {
-                        // Classic heart with animation
                         heart.innerHTML = '❤️';
-                        heart.style.fontSize = `${20 + Math.random() * 30}px`;
-                        heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-                        heart.style.animation = `floatUp ${3 + Math.random() * 4}s ease-in forwards`;
+                        heart.style.animation = `floatUp ${duration}s ease-in forwards`;
                     } else if (heartType === 1) {
-                        // Pulsing heart message
                         heart.textContent = messages[Math.floor(Math.random() * messages.length)];
-                        heart.style.fontSize = `${16 + Math.random() * 10}px`;
-                        heart.style.color = colors[Math.floor(Math.random() * colors.length)];
                         heart.style.fontWeight = 'bold';
-                        heart.style.animation = `pulse ${2 + Math.random() * 2}s ease-in-out infinite`;
+                        heart.style.animation = `pulse ${duration / 2}s ease-in-out infinite`;
                     } else {
-                        // Rotating heart
                         heart.innerHTML = '❤️';
-                        heart.style.fontSize = `${25 + Math.random() * 25}px`;
-                        heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-                        heart.style.animation = `rotateHeart ${4 + Math.random() * 3}s linear infinite`;
+                        heart.style.animation = `rotateHeart ${duration}s linear infinite`;
                     }
-
-                    // Random position
-                    heart.style.position = 'absolute';
-                    heart.style.left = `${Math.random() * 100}%`;
-                    heart.style.top = `${Math.random() * 100}%`;
-                    heart.style.opacity = '0';
-                    heart.style.transform = 'translate(-50%, -50%)';
-                    heart.style.zIndex = '1000';
-                    heart.style.pointerEvents = 'none';
-                    heart.style.userSelect = 'none';
-
-                    // Random animation delay
-                    heart.style.animationDelay = `${Math.random() * 2}s`;
-
+                    
                     container.appendChild(heart);
-
-                    // Fade in
-                    setTimeout(() => {
-                        heart.style.opacity = '0.8';
-                    }, 100);
-
-                    // Remove after animation completes
-                    setTimeout(() => {
-                        if (heart.parentNode) {
-                            heart.parentNode.removeChild(heart);
-                        }
-                    }, 10000);
-                }, i * 150); // Staggered appearance
+                    
+                    // Remove after animation
+                    setTimeout(() => heart.remove(), duration * 1000);
+                }, i * 150);
             }
-
-            // Add these new keyframes to your CSS:
-            const style = document.createElement('style');
-            style.textContent = `
-        @keyframes floatUp {
-            0% {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translate(-50%, -150%) scale(1.2);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes pulse {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.2);
-                opacity: 0.9;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.6;
-            }
-        }
-        
-        @keyframes rotateHeart {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg) scale(1);
-                opacity: 0.8;
-            }
-            50% {
-                transform: translate(-50%, -50%) rotate(180deg) scale(1.2);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg) scale(1);
-                opacity: 0.8;
-            }
-        }
-        
-        @keyframes heartBeat {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-            14% {
-                transform: translate(-50%, -50%) scale(1.3);
-            }
-            28% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-            42% {
-                transform: translate(-50%, -50%) scale(1.3);
-            }
-            70% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-    `;
-            document.head.appendChild(style);
         }
 
         // Text hover effect
         document.querySelectorAll('.slide span').forEach(span => {
-            span.addEventListener('mouseenter', function () {
-                this.dataset.original = this.textContent;
-                this.textContent = 'Fuck';
+            const originalText = span.textContent;
+            
+            span.addEventListener('mouseenter', () => {
+                span.dataset.original = originalText;
+                span.textContent = 'Fuck';
             });
-            span.addEventListener('mouseleave', function () {
-                this.textContent = this.dataset.original;
+            
+            span.addEventListener('mouseleave', () => {
+                span.textContent = span.dataset.original || originalText;
             });
         });
+
+        // Add shake animation to CSS
+        const shakeStyle = document.createElement('style');
+        shakeStyle.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20% { transform: translateX(-10px); }
+                40% { transform: translateX(10px); }
+                60% { transform: translateX(-10px); }
+                80% { transform: translateX(10px); }
+            }
+            .shake {
+                animation: shake 0.5s ease-in-out;
+            }
+        `;
+        document.head.appendChild(shakeStyle);
     </script>
 </body>
-
 </html>
